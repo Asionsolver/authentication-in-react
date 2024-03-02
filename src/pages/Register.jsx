@@ -61,6 +61,14 @@ export default function Register() {
           Sign In
         </NavLink>
       </p>
+
+      {/* Reset Password section */}
+      <p>
+        Forgot your password?{" "}
+        <NavLink to="/reset" className="text-blue-500 underline">
+          Reset
+        </NavLink>
+      </p>
     </div>
   );
 }

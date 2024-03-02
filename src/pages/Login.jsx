@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { loginWithEmailAndPassword } from "../firebase";
+import { loginWithEmailAndPassword, signInWithGoogle } from "../firebase";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,6 +17,14 @@ export default function Login() {
       console.log(error);
     }
   };
+
+  const handleSocialLogin = async () => {
+    const user = await signInWithGoogle();
+    console.log(user);
+    navigate("/home");
+    }
+
+    
   return (
     <div className="flex flex-col p-4 justify-center items-center">
       <h1 className="text-3xl m-3">Login</h1>
@@ -45,12 +53,19 @@ export default function Login() {
           />
         </div>
 
-        <div>
+        <div className="flex gap-2">
           <button
             onClick={handleLogin}
             className="bg-black text-white px-5 py-2 my-3 w-auto rounded-md  m-auto "
           >
             Log In
+          </button>
+
+          {/* Login with google button */}
+          <button
+           onClick={handleSocialLogin}
+           className="bg-red-500 text-white px-5 py-2 my-3 w-auto rounded-md  m-auto ">
+            Login with Google
           </button>
         </div>
       </form>

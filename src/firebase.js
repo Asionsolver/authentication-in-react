@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,26 +24,55 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const googleAuthProvider = new GoogleAuthProvider();
 
 const registerWithEmailAndPassword = async (email, password) => {
-    try {
-        const response = await createUserWithEmailAndPassword(auth, email, password);
-        const user = response.user;
-        return user;
-    } catch (error) {
-        throw(error);
-    }
-}
+  try {
+    const response = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = response.user;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const loginWithEmailAndPassword = async (email, password) => {
-    try {
-        const response = await signInWithEmailAndPassword(auth, email, password);
-        const user = response.user;
-        return user;
-    } catch (error) {
-        throw(error);
-    }
-}
+  try {
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    const user = response.user;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
-export { loginWithEmailAndPassword, registerWithEmailAndPassword, auth };
+const resetPassword = async (email) => {
+  try {
+    const response = await sendPasswordResetEmail(auth, email);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 
+const signInWithGoogle = async () => {
+  try {
+    const response = await signInWithPopup(auth, googleAuthProvider);
+    const user = response.user;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export {
+  auth,
+  loginWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  resetPassword,
+  signInWithGoogle,
+};
